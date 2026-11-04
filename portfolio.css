@@ -51,3 +51,106 @@ h1,h2,h3{text-wrap:balance}
 .terminal-line:focus-within{outline:2px solid var(--accent);outline-offset:4px;border-radius:4px}
 button,.btn{touch-action:manipulation}
 @media print{.skip-link,.palette-dialog{display:none!important}}
+
+/* Portfolio navigation */
+.header {
+  background: var(--bg);
+  border-bottom-color: var(--line);
+}
+.header .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  white-space: nowrap;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -.055em;
+}
+.header .brand::before {
+  content: "";
+  box-sizing: border-box;
+  width: 22px;
+  height: 22px;
+  margin-inline-end: 10px;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, var(--line));
+  border-radius: 7px;
+  background:
+    linear-gradient(125deg, transparent 44%, var(--accent) 45% 55%, transparent 56%)
+    center / 11px 14px no-repeat,
+    color-mix(in srgb, var(--accent) 9%, var(--bg));
+}
+.header .navlinks a {
+  position: relative;
+  display: block;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: color 140ms ease, background-color 140ms ease;
+}
+.header .navlinks a:focus-visible {
+  outline-offset: 2px;
+}
+.header .navlinks a::after {
+  content: "";
+  position: absolute;
+  inset: auto 12px 3px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  opacity: 0;
+  transform: scaleX(.55);
+  transition: opacity 160ms ease, transform 160ms cubic-bezier(.23, 1, .32, 1);
+}
+body:has(#projects:target) .navlinks a[href="#projects"],
+body:has(#about:target) .navlinks a[href="#about"],
+body:has(#skills:target) .navlinks a[href="#skills"],
+body:has(#github:target) .navlinks a[href="#github"],
+body:has(#contacts:target) .navlinks a[href="#contacts"] {
+  color: var(--text);
+  background: var(--bg);
+}
+body:has(#projects:target) .navlinks a[href="#projects"]::after,
+body:has(#about:target) .navlinks a[href="#about"]::after,
+body:has(#skills:target) .navlinks a[href="#skills"]::after,
+body:has(#github:target) .navlinks a[href="#github"]::after,
+body:has(#contacts:target) .navlinks a[href="#contacts"]::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+@media (min-width: 901px) {
+  .header .navlinks {
+    display: flex;
+    gap: 3px;
+    padding: 4px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--panel);
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .header .navlinks a:hover {
+    background: var(--bg);
+    color: var(--text);
+  }
+  .header .navlinks a:hover::after {
+    opacity: .65;
+    transform: scaleX(1);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .header .brand,
+  .header .navlinks:not(.mobile-open) {
+    animation: header-appear 200ms cubic-bezier(.23, 1, .32, 1) both;
+  }
+  .header .navlinks:not(.mobile-open) { animation-delay: 35ms; }
+  .header:focus-within :is(.brand, .navlinks) { animation: none; }
+  @keyframes header-appear {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .header .navlinks a,
+  .header .navlinks a::after { transition: none; }
+}
