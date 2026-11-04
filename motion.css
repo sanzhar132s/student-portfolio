@@ -1,13 +1,38 @@
-/* Short entrance inspired by transitions-dev texts-reveal and number-pop-in. */
-:root{--stagger-dur:500ms;--stagger-distance:12px;--stagger-stagger:40ms;--stagger-ease:cubic-bezier(.22,1,.36,1);--digit-dur:400ms;--digit-distance:8px;--digit-blur:2px;--digit-ease:cubic-bezier(.34,1.45,.64,1)}
-@keyframes t-hero-reveal{from{opacity:0;transform:translateY(var(--stagger-distance));filter:blur(3px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
-@keyframes t-showcase-reveal{from{opacity:0;transform:translateY(16px) rotate(0)}to{opacity:1;transform:translateY(0) rotate(2deg)}}
-@keyframes t-dot-arrive{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
-.hero-main>.hero-role,.hero-main>.availability,.hero-main>h1,.hero-main>.hero-desc,.hero-main>.hero-actions,.hero-main>.hero-foot{animation:t-hero-reveal var(--stagger-dur) var(--stagger-ease) both}
-.hero-main>.hero-role{animation-delay:0ms}.hero-main>.availability{animation-delay:40ms}.hero-main>h1{animation-delay:80ms}.hero-main>.hero-desc{animation-delay:160ms}.hero-main>.hero-actions{animation-delay:200ms}.hero-main>.hero-foot{animation-delay:240ms}
-.hero-showcase{animation:t-showcase-reveal 600ms var(--stagger-ease) 120ms both}.hero .pulse{animation:t-dot-arrive 350ms var(--stagger-ease) 450ms both}.showcase-mini>a{animation:t-hero-reveal 400ms var(--stagger-ease) 320ms both}.showcase-mini>a:nth-child(2){animation-delay:360ms}
-@keyframes t-digit-pop-in{from{opacity:0;transform:translateY(var(--digit-distance)) scale(.96);filter:blur(var(--digit-blur))}to{opacity:1;transform:none;filter:blur(0)}}
+
++:root {
++  --ease-out: cubic-bezier(.23, 1, .32, 1);
++  --digit-dur: 400ms;
++  --digit-distance: 8px;
++  --digit-blur: 2px;
++  --digit-ease: cubic-bezier(.34, 1.45, .64, 1);
++}
++@keyframes hero-enter {
++  from { opacity: 0; translate: 0 8px; }
++  to { opacity: 1; translate: 0 0; }
++}
++.hero-main > :is(.hero-role, .availability, h1, .hero-desc, .hero-actions, .hero-foot),
++.hero-showcase {
++  animation: hero-enter 240ms var(--ease-out) both;
++}
++.hero-main > .availability { animation-delay: 30ms; }
++.hero-main > h1 { animation-delay: 60ms; }
++.hero-main > .hero-desc { animation-delay: 100ms; }
++.hero-main > .hero-actions { animation-delay: 140ms; }
++.hero-main > .hero-foot { animation-delay: 180ms; }
++.hero-showcase { animation-delay: 100ms; }
++.hero:focus-within .hero-main > *, .hero:focus-within .hero-showcase { animation: none; }
++.hero :is(.btn, .print-link) { transition: transform 140ms var(--ease-out); }
++.hero :is(.btn, .print-link):active:not(:focus-visible) { transform: scale(.97); }
++@media (hover: none), (pointer: coarse) {
++  .hero .btn:hover:not(:active), .project-cover:hover img { transform: none; }
++}
++@media (prefers-reduced-motion: reduce) {
++  .hero-main > *, .hero-showcase { animation: none !important; }
++  .hero :is(.btn, .print-link):active { transform: none; }
++}
++@media print { .hero-main > *, .hero-showcase { animation: none !important; } }
++@keyframes t-digit-pop-in{from{opacity:0;transform:translateY(var(--digit-distance)) scale(.96);filter:blur(var(--digit-blur))}to{opacity:1;transform:none;filter:blur(0)}}
 .t-digit.is-animating{animation:t-digit-pop-in var(--digit-dur) var(--digit-ease) both}
-@media(max-width:700px){@keyframes t-showcase-reveal{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}}
+
 @media(prefers-reduced-motion:reduce){.hero-main>*,.hero-showcase,.hero .pulse,.showcase-mini>a,.t-digit.is-animating{animation:none!important;filter:none!important}.hero-main>*,.showcase-mini>a{transform:none!important}}
 @media print{.hero-main>*,.hero-showcase,.showcase-mini>a,.t-digit.is-animating{animation:none!important;opacity:1!important;transform:none!important;filter:none!important}}
